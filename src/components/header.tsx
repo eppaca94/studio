@@ -31,29 +31,31 @@ export function AppHeader() {
   return (
     <header className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-card shadow-md" : "top-1/2 -translate-y-1/2",
+        scrolled ? "bg-card shadow-md" : "",
       )}>
       <div className="container mx-auto px-4">
         <div className={cn(
             "flex items-center justify-between transition-all duration-300",
-            scrolled ? "h-20" : "h-32 justify-center",
+            scrolled ? "h-20" : "h-32",
           )}>
-          <Link href="/" className="flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className={cn("text-primary transition-all duration-300", scrolled ? "w-8 h-8" : "w-12 h-12")}
-            >
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 6.5h3v2h-3v-2zm0 3h3v2h-3v-2zm0 3h3v2h-3v-2z" />
-            </svg>
-            <span className={cn(
-                "font-bold font-headline text-primary transition-all duration-300",
-                scrolled ? "text-2xl" : "text-4xl",
-              )}>
-              QBOGame
-            </span>
-          </Link>
+          <div className={cn("transition-all duration-300", !scrolled && "w-full flex justify-center")}>
+            <Link href="/" className="flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className={cn("text-primary transition-all duration-300", scrolled ? "w-8 h-8" : "w-12 h-12")}
+              >
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 6.5h3v2h-3v-2zm0 3h3v2h-3v-2zm0 3h3v2h-3v-2z" />
+              </svg>
+              <span className={cn(
+                  "font-bold font-headline text-primary transition-all duration-300",
+                  scrolled ? "text-2xl" : "text-4xl",
+                )}>
+                QBOGame
+              </span>
+            </Link>
+          </div>
 
           <nav className={cn("hidden md:flex items-center gap-6 transition-opacity duration-300", scrolled ? "opacity-100" : "opacity-0")}>
             {navLinks.map((link) => (
