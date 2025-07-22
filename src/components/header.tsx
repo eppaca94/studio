@@ -19,7 +19,7 @@ export function AppHeader() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -31,14 +31,26 @@ export function AppHeader() {
   return (
     <header className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-card shadow-md" : "",
+        scrolled ? "bg-card shadow-md" : "bg-transparent",
       )}>
       <div className="container mx-auto px-4">
         <div className={cn(
-            "flex items-center justify-between transition-all duration-300",
+            "relative flex items-center justify-between transition-all duration-300",
             scrolled ? "h-20" : "h-32",
           )}>
-          <div className={cn("transition-all duration-300", !scrolled && "w-full flex justify-center")}>
+            <div className="flex-1">
+                <nav className="hidden md:flex items-center gap-6">
+                    {navLinks.map((link) => (
+                    <Button key={link.href} variant="ghost" asChild>
+                        <Link href={link.href} className="text-md font-medium text-muted-foreground hover:text-primary">
+                        {link.label}
+                        </Link>
+                    </Button>
+                    ))}
+                </nav>
+            </div>
+
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <Link href="/" className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -57,26 +69,19 @@ export function AppHeader() {
             </Link>
           </div>
 
-          <nav className={cn("hidden md:flex items-center gap-6 transition-opacity duration-300", scrolled ? "opacity-100" : "opacity-0")}>
-            {navLinks.map((link) => (
-              <Button key={link.href} variant="ghost" asChild>
-                <Link href={link.href} className="text-md font-medium text-muted-foreground hover:text-primary">
-                  {link.label}
-                </Link>
-              </Button>
-            ))}
-          </nav>
-
-          <div className={cn("hidden md:flex items-center gap-2 transition-opacity duration-300", scrolled ? "opacity-100" : "opacity-0")}>
-            <Button variant="outline" asChild>
-              <Link href="/login">Login</Link>
-            </Button>
-            <Button className="bg-accent hover:bg-accent/90" asChild>
-              <Link href="/signup">Sign Up</Link>
-            </Button>
+          <div className="flex-1 flex justify-end">
+            <div className="hidden md:flex items-center gap-2">
+                <Button variant="outline" asChild>
+                <Link href="/login">Login</Link>
+                </Button>
+                <Button className="bg-accent hover:bg-accent/90" asChild>
+                <Link href="/signup">Sign Up</Link>
+                </Button>
+            </div>
           </div>
 
-          <div className={cn("md:hidden transition-opacity duration-300", scrolled ? "opacity-100" : "opacity-0")}>
+
+          <div className="md:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
