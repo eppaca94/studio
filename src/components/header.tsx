@@ -59,7 +59,7 @@ export function AppHeader() {
             
           <div className="flex-1">
               <nav className={cn("hidden md:flex items-center transition-all duration-500",
-                scrolled ? "gap-6 ml-6" : "gap-12 justify-center"
+                scrolled ? "gap-6 ml-6 opacity-100" : "gap-12 justify-center opacity-0"
               )}>
                   {navLinks.map((link) => (
                   <Button key={link.href} variant="ghost" asChild>
@@ -74,7 +74,7 @@ export function AppHeader() {
           <div className={cn("absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500",
              scrolled ? "opacity-0 -translate-y-10" : "opacity-100"
           )}>
-            <Link href="/" className="flex items-center gap-2 pointer-events-none">
+            <Link href="/" className="flex items-center gap-2 pointer-events-none md:pointer-events-auto">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -90,7 +90,9 @@ export function AppHeader() {
           </div>
 
           <div className="flex-1 flex justify-end">
-            <div className="hidden md:flex items-center gap-2">
+            <div className={cn("hidden md:flex items-center gap-2 transition-opacity duration-500",
+                scrolled ? "opacity-100" : "opacity-0"
+              )}>
                 <Button variant="outline" asChild>
                 <Link href="/login">Login</Link>
                 </Button>
