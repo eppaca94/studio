@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -70,12 +71,25 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="text-center py-20 md:py-32 bg-slate-50 dark:bg-gray-900/50">
-        <div className="container mx-auto px-4">
-          <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary mb-4">
+      <section className="relative h-[75vh] flex items-center justify-center text-center overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full bg-black/60 z-10" />
+        <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute z-0 w-auto min-w-full min-h-full max-w-none"
+            poster="https://placehold.co/1920x1080/000000/000000.png"
+            data-ai-hint="gameplay montage"
+            >
+            {/* NOTE: Please replace this with a real video file. This is a placeholder. */}
+            <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" type="video/mp4" />
+        </video>
+        <div className="container mx-auto px-4 z-20 relative text-white">
+          <h1 className="font-headline text-5xl md:text-7xl font-bold mb-4" style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.7)' }}>
             Your Arena for 2D Games
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8">
+          <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-8" style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.7)' }}>
             Play classic and new 2D browser games, compete in thrilling tournaments, and win real prizes.
           </p>
           <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
