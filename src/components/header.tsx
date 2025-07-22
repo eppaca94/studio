@@ -43,14 +43,7 @@ export function AppHeader() {
             scrolled ? "opacity-100" : "opacity-0"
           )}>
              <Link href="/" className="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="text-primary w-8 h-8"
-              >
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 6.5h3v2h-3v-2zm0 3h3v2h-3v-2zm0 3h3v2h-3v-2z" />
-              </svg>
+              <Gamepad2 className="text-primary w-8 h-8" />
               <span className="font-bold font-headline text-primary text-2xl">
                 QBOGame
               </span>
@@ -75,14 +68,7 @@ export function AppHeader() {
              scrolled ? "opacity-0 -translate-y-10" : "opacity-100"
           )}>
             <Link href="/" className="flex items-center gap-2 pointer-events-none md:pointer-events-auto">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="text-primary w-12 h-12"
-              >
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 6.5h3v2h-3v-2zm0 3h3v2h-3v-2zm0 3h3v2h-3v-2z" />
-              </svg>
+              <Gamepad2 className="text-primary w-12 h-12" />
               <span className="font-bold font-headline text-primary text-4xl">
                 QBOGame
               </span>
@@ -115,14 +101,7 @@ export function AppHeader() {
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between p-6 border-b">
                     <Link href="/" onClick={closeMobileMenu} className="flex items-center gap-2">
-                       <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-8 h-8 text-primary"
-                      >
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 6.5h3v2h-3v-2zm0 3h3v2h-3v-2zm0 3h3v2h-3v-2z" />
-                      </svg>
+                       <Gamepad2 className="w-8 h-8 text-primary" />
                       <span className="text-xl font-bold font-headline text-primary">QBOGame</span>
                     </Link>
                     <Button variant="ghost" size="icon" onClick={closeMobileMenu}>
