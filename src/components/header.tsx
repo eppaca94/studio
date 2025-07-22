@@ -38,32 +38,52 @@ export function AppHeader() {
             "relative flex items-center justify-between transition-all duration-300",
             scrolled ? "h-20" : "h-32",
           )}>
-            <div className="flex-1">
-                <nav className="hidden md:flex items-center gap-6">
-                    {navLinks.map((link) => (
-                    <Button key={link.href} variant="ghost" asChild>
-                        <Link href={link.href} className="text-md font-medium text-muted-foreground hover:text-primary">
-                        {link.label}
-                        </Link>
-                    </Button>
-                    ))}
-                </nav>
-            </div>
-
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <Link href="/" className="flex items-center gap-2">
+          
+          <div className={cn("flex items-center gap-2 transition-all duration-500", 
+            scrolled ? "opacity-100" : "opacity-0"
+          )}>
+             <Link href="/" className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className={cn("text-primary transition-all duration-300", scrolled ? "w-8 h-8" : "w-12 h-12")}
+                className="text-primary w-8 h-8"
               >
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 6.5h3v2h-3v-2zm0 3h3v2h-3v-2zm0 3h3v2h-3v-2z" />
               </svg>
-              <span className={cn(
-                  "font-bold font-headline text-primary transition-all duration-300",
-                  scrolled ? "text-2xl" : "text-4xl",
-                )}>
+              <span className="font-bold font-headline text-primary text-2xl">
+                QBOGame
+              </span>
+            </Link>
+          </div>
+            
+          <div className="flex-1">
+              <nav className={cn("hidden md:flex items-center transition-all duration-500",
+                scrolled ? "gap-6 ml-6" : "gap-12 justify-center"
+              )}>
+                  {navLinks.map((link) => (
+                  <Button key={link.href} variant="ghost" asChild>
+                      <Link href={link.href} className="text-md font-medium text-muted-foreground hover:text-primary">
+                      {link.label}
+                      </Link>
+                  </Button>
+                  ))}
+              </nav>
+          </div>
+
+          <div className={cn("absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500",
+             scrolled ? "opacity-0 -translate-y-10" : "opacity-100"
+          )}>
+            <Link href="/" className="flex items-center gap-2 pointer-events-none">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="text-primary w-12 h-12"
+              >
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 6.5h3v2h-3v-2zm0 3h3v2h-3v-2zm0 3h3v2h-3v-2z" />
+              </svg>
+              <span className="font-bold font-headline text-primary text-4xl">
                 QBOGame
               </span>
             </Link>
