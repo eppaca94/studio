@@ -42,7 +42,8 @@ export function AppHeader() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const isScrolled = window.scrollY > 20;
+      setScrolled(isScrolled);
     };
 
     if (isHomePage) {
@@ -102,69 +103,57 @@ export function AppHeader() {
         scrolled || !isHomePage ? "bg-card/95 shadow-md backdrop-blur-sm" : "bg-transparent",
       )}>
       <div className="container mx-auto px-4">
-        <div className={cn(
-            "relative flex items-center justify-between transition-all duration-300",
-            scrolled || !isHomePage ? "h-20" : "h-28"
-          )}>
-          
-          <div className={cn(
-            "flex items-center gap-2 transition-all duration-500", 
-            scrolled || !isHomePage ? "opacity-100" : "opacity-0 -translate-x-full pointer-events-none"
-          )}>
-             <Link href="/" className="flex items-center gap-2">
-              <Gamepad2 className="text-primary w-12 h-12" />
-              <span className="font-bold font-headline text-primary text-5xl">
+        <div className="flex h-20 items-center justify-between">
+            <div className={cn(
+                "flex items-center gap-3 transition-all duration-500",
+                isHomePage && !scrolled ? "absolute left-1/2 -translate-x-1/2" : ""
+            )}>
+                <Gamepad2 className={cn(
+                    "transition-all duration-500",
+                    isHomePage && !scrolled ? "h-12 w-12 text-primary" : "h-10 w-10 text-primary"
+                )} />
+                <span className={cn(
+                    "font-bold font-headline text-primary transition-all duration-500",
+                    isHomePage && !scrolled ? "text-5xl" : "text-4xl"
+                )}>
                 QBOGame
-              </span>
-            </Link>
-          </div>
-
-          <div 
-            className={cn(
-              "absolute left-1/2 flex items-center gap-2 transition-all duration-500",
-              scrolled || !isHomePage ? "opacity-0 -translate-x-full pointer-events-none" : "opacity-100 -translate-x-1/2"
-            )}
-          >
-            <Link href="/" className="flex items-center gap-2">
-              <Gamepad2 className="text-primary w-12 h-12" />
-              <span className="font-bold font-headline text-primary text-5xl">
-                QBOGame
-              </span>
-            </Link>
-          </div>
+                </span>
+            </div>
             
-          <div className="flex-1 flex items-center justify-center">
-              <nav className={cn("hidden md:flex items-center gap-6 ml-6 transition-opacity duration-500",
-                scrolled || !isHomePage ? "opacity-100" : "opacity-0 pointer-events-none"
-              )}>
-                  {navLinks.map((link) => (
-                  <Button key={link.href} variant="ghost" asChild>
-                      <Link href={link.href} className="text-md font-medium text-muted-foreground hover:text-primary">
-                      {link.label}
-                      </Link>
-                  </Button>
-                  ))}
-                  {user && (
-                    <Button variant="ghost" asChild>
-                        <Link href="/wallet" className="text-md font-medium text-muted-foreground hover:text-primary">
-                        Wallet
-                        </Link>
-                    </Button>
-                  )}
-              </nav>
-          </div>
+          <nav className={cn(
+              "hidden md:flex items-center gap-4 transition-opacity duration-500",
+              isHomePage && !scrolled ? "opacity-0" : "opacity-100"
+          )}>
+              {navLinks.map((link) => (
+              <Button key={link.href} variant="ghost" asChild>
+                  <Link href={link.href} className="text-md font-medium text-muted-foreground hover:text-primary">
+                  {link.label}
+                  </Link>
+              </Button>
+              ))}
+              {user && (
+                <Button variant="ghost" asChild>
+                    <Link href="/wallet" className="text-md font-medium text-muted-foreground hover:text-primary">
+                    Wallet
+                    </Link>
+                </Button>
+              )}
+          </nav>
 
-          <div className="flex justify-end">
-             <div className="hidden md:flex items-center gap-2">
-                {user ? <UserMenu /> : (
-                  <div className={cn("flex items-center gap-2 transition-opacity duration-500", scrolled || !isHomePage ? "opacity-100" : "opacity-0 pointer-events-none")}>
+          <div className="flex items-center gap-2">
+             <div className={cn(
+                 "hidden md:flex items-center gap-2 transition-opacity duration-500",
+                 isHomePage && !scrolled ? "opacity-0" : "opacity-100"
+                )}>
+                {loading ? null : user ? <UserMenu /> : (
+                  <>
                     <Button variant="outline" asChild>
                       <Link href="/login">Login</Link>
                     </Button>
                     <Button className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
                       <Link href="/signup">Sign Up</Link>
                     </Button>
-                  </div>
+                  </>
                 )}
             </div>
           </div>
@@ -204,7 +193,7 @@ export function AppHeader() {
                     ))}
                   </nav>
                   <div className="p-6 border-t mt-auto flex flex-col gap-4">
-                    {user ? (
+                    {loading ? null : user ? (
                         <Button variant="outline" size="lg" onClick={() => { handleLogout(); closeMobileMenu(); }}>
                           <LogOut className="mr-2 h-4 w-4" />
                           Logout
