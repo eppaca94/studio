@@ -39,7 +39,7 @@ export function AppHeader() {
             scrolled ? "h-20" : "h-32",
           )}>
           
-          <div className={cn("flex items-center gap-2 transition-all duration-500", 
+          <div className={cn("flex items-center gap-2 transition-opacity duration-500", 
             scrolled ? "opacity-100" : "opacity-0"
           )}>
              <Link href="/" className="flex items-center gap-2">
@@ -51,8 +51,8 @@ export function AppHeader() {
           </div>
             
           <div className="flex-1">
-              <nav className={cn("hidden md:flex items-center transition-all duration-500",
-                scrolled ? "gap-6 ml-6 opacity-100" : "gap-12 justify-center opacity-0"
+              <nav className={cn("hidden md:flex items-center transition-opacity duration-500",
+                scrolled ? "gap-6 ml-6 opacity-100" : "opacity-0"
               )}>
                   {navLinks.map((link) => (
                   <Button key={link.href} variant="ghost" asChild>
