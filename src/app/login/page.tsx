@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -40,7 +41,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-10rem)] px-4">
+    <div className="flex items-center justify-center min-h-screen pt-28 px-4">
       <Card className="w-full max-w-md shadow-2xl">
         <form onSubmit={handleSubmit}>
           <CardHeader className="text-center">
