@@ -104,21 +104,21 @@ export function AppHeader() {
       )}>
       <div className="container mx-auto px-4">
         <div className="flex h-20 items-center justify-between">
-            <div className={cn(
-                "flex items-center gap-3 transition-all duration-500",
+            <Link href="/" className={cn(
+                "flex items-center gap-2 transition-all duration-500",
                 isHomePage && !scrolled ? "absolute left-1/2 -translate-x-1/2" : ""
             )}>
                 <Gamepad2 className={cn(
                     "transition-all duration-500",
-                    isHomePage && !scrolled ? "h-12 w-12 text-primary" : "h-10 w-10 text-primary"
+                    isHomePage && !scrolled ? "h-10 w-10 text-primary" : "h-8 w-8 text-primary"
                 )} />
                 <span className={cn(
                     "font-bold font-headline text-primary transition-all duration-500",
-                    isHomePage && !scrolled ? "text-5xl" : "text-4xl"
+                    isHomePage && !scrolled ? "text-4xl" : "text-3xl"
                 )}>
                 QBOGame
                 </span>
-            </div>
+            </Link>
             
           <nav className={cn(
               "hidden md:flex items-center gap-4 transition-opacity duration-500",
