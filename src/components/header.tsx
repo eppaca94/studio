@@ -36,7 +36,7 @@ export function AppHeader() {
       )}>
       <div className="container mx-auto px-4">
         <div className={cn(
-            "flex items-center justify-between transition-all duration-300",
+            "relative flex items-center justify-between transition-all duration-300",
             scrolled ? "h-20" : "h-28"
           )}>
           
@@ -45,6 +45,20 @@ export function AppHeader() {
             scrolled ? "opacity-100" : "opacity-0"
           )}>
              <Link href="/" className="flex items-center gap-2">
+              <Gamepad2 className="text-primary w-8 h-8" />
+              <span className="font-bold font-headline text-primary text-2xl">
+                QBOGame
+              </span>
+            </Link>
+          </div>
+
+          <div 
+            className={cn(
+              "absolute left-1/2 flex items-center gap-2 transition-all duration-500",
+              scrolled ? "opacity-0 -translate-x-full pointer-events-none" : "opacity-100 -translate-x-1/2"
+            )}
+          >
+            <Link href="/" className="flex items-center gap-2">
               <Gamepad2 className="text-primary w-8 h-8" />
               <span className="font-bold font-headline text-primary text-2xl">
                 QBOGame
