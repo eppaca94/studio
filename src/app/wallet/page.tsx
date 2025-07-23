@@ -1,5 +1,10 @@
 'use client';
 
+import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { QbocoinIcon } from "@/components/icons/qbocoin-icon";
 import { useToast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const transactions = [
     { id: 1, date: '2024-06-10', description: 'Deposit from VISA **** 4242', amount: 1000, type: 'deposit' },
@@ -17,6 +23,26 @@ const transactions = [
 
 export default function WalletPage() {
     const { toast } = useToast();
+    const [user, loading] = useAuthState(auth);
+    const [balance, setBalance] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (user) {
+            const userDocRef = doc(db, "users", user.uid);
+            const unsubscribe = onSnapshot(userDocRef, (doc) => {
+                if (doc.exists()) {
+                    setBalance(doc.data().coins);
+                } else {
+                    // This case might happen if the doc creation is delayed
+                    setBalance(0);
+                }
+            });
+
+            // Cleanup subscription on unmount
+            return () => unsubscribe();
+        }
+    }, [user]);
+
 
     const handleDeposit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -93,10 +119,14 @@ export default function WalletPage() {
                     <CardTitle className="font-headline text-lg">Current Balance</CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-col items-center justify-center">
-                    <div className="flex items-center gap-2 text-5xl font-bold text-primary">
-                        <QbocoinIcon className="w-12 h-12" />
-                        <span>1,250</span>
-                    </div>
+                     {loading || balance === null ? (
+                        <Skeleton className="h-12 w-36" />
+                    ) : (
+                        <div className="flex items-center gap-2 text-5xl font-bold text-primary">
+                            <QbocoinIcon className="w-12 h-12" />
+                            <span>{balance.toLocaleString()}</span>
+                        </div>
+                    )}
                     <p className="text-muted-foreground mt-2">Qbocoins</p>
                 </CardContent>
             </Card>

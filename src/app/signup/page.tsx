@@ -8,8 +8,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { auth } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function SignupPage() {
     const { toast } = useToast();
@@ -34,7 +35,15 @@ export default function SignupPage() {
       }
 
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Create a document for the new user in Firestore
+        await setDoc(doc(db, "users", user.uid), {
+            email: user.email,
+            coins: 0,
+        });
+
         toast({
             title: "Account Created!",
             description: "You can now log in with your new credentials.",
