@@ -32,7 +32,7 @@ export function AppHeader() {
   return (
     <header className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-card shadow-md" : "bg-transparent",
+        scrolled ? "bg-card/95 shadow-md" : "bg-transparent",
       )}>
       <div className="container mx-auto px-4">
         <div className={cn(
