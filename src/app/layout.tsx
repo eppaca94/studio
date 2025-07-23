@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className="font-body antialiased bg-background">
         <div className="flex flex-col min-h-screen">
           <AppHeader />
-          <main className="flex-grow pt-32">
+          <main className="flex-grow">
             {children}
           </main>
         </div>
