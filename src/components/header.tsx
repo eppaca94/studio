@@ -42,16 +42,16 @@ export function AppHeader() {
 
   useEffect(() => {
     const handleScroll = () => {
-        if (isHomePage) {
-            setScrolled(window.scrollY > 20);
-        }
+      setScrolled(window.scrollY > 20);
     };
-    
+
     if (isHomePage) {
         window.addEventListener("scroll", handleScroll);
-        handleScroll(); // Check scroll position on initial load
+        // Initial check
+        handleScroll();
         return () => window.removeEventListener("scroll", handleScroll);
     } else {
+        // For all other pages, the header is always "scrolled"
         setScrolled(true);
     }
   }, [isHomePage]);
@@ -99,17 +99,17 @@ export function AppHeader() {
   return (
     <header className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-card/95 shadow-md backdrop-blur-sm" : "bg-transparent",
+        scrolled || !isHomePage ? "bg-card/95 shadow-md backdrop-blur-sm" : "bg-transparent",
       )}>
       <div className="container mx-auto px-4">
         <div className={cn(
             "relative flex items-center justify-between transition-all duration-300",
-            scrolled ? "h-20" : "h-28"
+            scrolled || !isHomePage ? "h-20" : "h-28"
           )}>
           
           <div className={cn(
             "flex items-center gap-2 transition-all duration-500", 
-            scrolled ? "opacity-100" : "opacity-0 -translate-x-full pointer-events-none"
+            scrolled || !isHomePage ? "opacity-100" : "opacity-0 -translate-x-full pointer-events-none"
           )}>
              <Link href="/" className="flex items-center gap-2">
               <Gamepad2 className="text-primary w-12 h-12" />
@@ -122,7 +122,7 @@ export function AppHeader() {
           <div 
             className={cn(
               "absolute left-1/2 flex items-center gap-2 transition-all duration-500",
-              scrolled ? "opacity-0 -translate-x-full pointer-events-none" : "opacity-100 -translate-x-1/2"
+              scrolled || !isHomePage ? "opacity-0 -translate-x-full pointer-events-none" : "opacity-100 -translate-x-1/2"
             )}
           >
             <Link href="/" className="flex items-center gap-2">
@@ -135,7 +135,7 @@ export function AppHeader() {
             
           <div className="flex-1 flex items-center justify-center">
               <nav className={cn("hidden md:flex items-center gap-6 ml-6 transition-opacity duration-500",
-                scrolled ? "opacity-100" : "opacity-0 pointer-events-none"
+                scrolled || !isHomePage ? "opacity-100" : "opacity-0 pointer-events-none"
               )}>
                   {navLinks.map((link) => (
                   <Button key={link.href} variant="ghost" asChild>
@@ -157,7 +157,7 @@ export function AppHeader() {
           <div className="flex justify-end">
              <div className="hidden md:flex items-center gap-2">
                 {user ? <UserMenu /> : (
-                  <div className={cn("flex items-center gap-2 transition-opacity duration-500", scrolled ? "opacity-100" : "opacity-0 pointer-events-none")}>
+                  <div className={cn("flex items-center gap-2 transition-opacity duration-500", scrolled || !isHomePage ? "opacity-100" : "opacity-0 pointer-events-none")}>
                     <Button variant="outline" asChild>
                       <Link href="/login">Login</Link>
                     </Button>
