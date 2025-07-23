@@ -22,6 +22,7 @@ export function AppHeader() {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Check scroll position on initial load
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -35,8 +36,7 @@ export function AppHeader() {
       )}>
       <div className="container mx-auto px-4">
         <div className={cn(
-            "relative flex items-center justify-between transition-all duration-300",
-            scrolled ? "h-20" : "h-32",
+            "flex items-center justify-between transition-all duration-300 h-20",
           )}>
           
           <div className={cn("flex items-center gap-2 transition-opacity duration-500", 
@@ -51,8 +51,8 @@ export function AppHeader() {
           </div>
             
           <div className="flex-1">
-              <nav className={cn("hidden md:flex items-center transition-opacity duration-500",
-                scrolled ? "gap-6 ml-6 opacity-100" : "opacity-0"
+              <nav className={cn("hidden md:flex items-center gap-6 ml-6 transition-opacity duration-500",
+                scrolled ? "opacity-100" : "opacity-0 pointer-events-none"
               )}>
                   {navLinks.map((link) => (
                   <Button key={link.href} variant="ghost" asChild>
@@ -64,25 +64,14 @@ export function AppHeader() {
               </nav>
           </div>
 
-          <div className={cn("absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500",
-             scrolled ? "opacity-0 -translate-y-10" : "opacity-100"
-          )}>
-            <Link href="/" className="flex items-center gap-2 pointer-events-none md:pointer-events-auto">
-              <Gamepad2 className="text-primary w-12 h-12" />
-              <span className="font-bold font-headline text-primary text-4xl">
-                QBOGame
-              </span>
-            </Link>
-          </div>
-
           <div className="flex-1 flex justify-end">
             <div className={cn("hidden md:flex items-center gap-2 transition-opacity duration-500",
-                scrolled ? "opacity-100" : "opacity-0"
+                scrolled ? "opacity-100" : "opacity-0 pointer-events-none"
               )}>
                 <Button variant="outline" asChild>
                 <Link href="/login">Login</Link>
                 </Button>
-                <Button className="bg-accent hover:bg-accent/90" asChild>
+                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
                 <Link href="/signup">Sign Up</Link>
                 </Button>
             </div>
