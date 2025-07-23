@@ -72,7 +72,7 @@ export default function Home() {
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center text-center overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-black/70 z-10" />
+        <div className="absolute top-0 left-0 w-full h-full bg-background/70 z-10" />
         <video
             autoPlay
             loop
@@ -86,16 +86,13 @@ export default function Home() {
             <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" type="video/mp4" />
         </video>
         <div className="container mx-auto px-4 z-20 relative text-white flex flex-col items-center">
-            <div className="flex items-center gap-4 mb-6">
-                <Gamepad2 className="w-16 h-16 text-primary" />
-                <h1 className="font-headline text-7xl font-bold text-primary">
-                    QBOGame
-                </h1>
-            </div>
-          <p className="text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-neutral-300" style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.7)' }}>
-            Tu portal para descubrir, jugar y compartir increíbles juegos 2D. Desde gemas indie hasta aventuras de estilo clásico, la diversión nunca termina.
+            <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary mb-4" style={{ textShadow: '0 0 15px hsl(var(--primary))' }}>
+                Tu Arena de Juegos 2D
+            </h1>
+          <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-8 text-neutral-200" style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.7)' }}>
+            Juega a los clásicos y nuevos juegos de navegador 2D, compite en emocionantes torneos y gana premios increíbles.
           </p>
-          <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg py-7 px-10">
+          <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg py-7 px-10 shadow-[0_0_20px_hsl(var(--primary))]">
             <Link href="/">
                 <Gamepad2 className="mr-3" />
                 Explorar Juegos
@@ -108,17 +105,17 @@ export default function Home() {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
            <div className="text-center mb-16">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-2">
-              Get Started in Minutes
+            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-2" style={{ textShadow: '0 0 10px hsl(var(--primary))' }}>
+              Comienza en Minutos
             </h2>
             <p className="text-lg text-muted-foreground">
-              Joining the fun is as easy as one, two, three.
+              Unirte a la diversión es tan fácil como contar hasta tres.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-12 text-center">
             {howItWorks.map((step) => (
               <div key={step.title} className="flex flex-col items-center">
-                <div className="bg-primary/10 p-6 rounded-full mb-6">
+                <div className="bg-primary/10 p-6 rounded-full mb-6 border-2 border-primary/50 shadow-[0_0_15px_hsl(var(--primary)/0.5)]">
                     <step.icon className="w-12 h-12 text-primary" />
                 </div>
                 <h3 className="font-headline text-2xl font-bold mb-2">{step.title}</h3>
@@ -133,17 +130,17 @@ export default function Home() {
       <section className="py-20 bg-secondary/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-2">
-              Featured Games
+            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-2" style={{ textShadow: '0 0 10px hsl(var(--primary))' }}>
+              Juegos Destacados
             </h2>
             <p className="text-lg text-muted-foreground">
-              Dive into a world of 2D games. Ready to play, right in your browser.
+              Sumérgete en un mundo de juegos 2D. Listos para jugar, directamente en tu navegador.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredGames.map((game) => (
-              <Card key={game.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-card">
+              <Card key={game.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-card border-primary/20 hover:border-primary/50">
                 <CardHeader className="p-0">
                   <Image
                     src={game.imageUrl}
@@ -176,17 +173,17 @@ export default function Home() {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-2">
-              What Players Are Saying
+            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-2" style={{ textShadow: '0 0 10px hsl(var(--primary))' }}>
+              Lo que dicen los Jugadores
             </h2>
              <p className="text-lg text-muted-foreground">
-              We're proud to have a vibrant and growing community.
+              Estamos orgullosos de tener una comunidad vibrante y en crecimiento.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial) => (
-              <Card key={testimonial.name} className="flex flex-col justify-center items-center p-8 text-center shadow-xl bg-card">
-                 <Avatar className="w-20 h-20 mb-4 border-4 border-primary/20">
+              <Card key={testimonial.name} className="flex flex-col justify-center items-center p-8 text-center shadow-xl bg-card border-primary/20 hover:border-primary/50">
+                 <Avatar className="w-20 h-20 mb-4 border-4 border-primary/50 shadow-[0_0_20px_hsl(var(--primary)/0.7)]">
                     <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
                     <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
                   </Avatar>
@@ -203,14 +200,14 @@ export default function Home() {
       {/* Final CTA Section */}
         <section className="py-20 text-white" style={{ background: 'linear-gradient(45deg, hsl(var(--secondary)), hsl(var(--background)))' }}>
             <div className="container mx-auto px-4 text-center">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4">
-                Ready to Join the Fray?
+            <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary" style={{ textShadow: '0 0 10px hsl(var(--primary))' }}>
+                ¿Listo para Unirte a la Batalla?
             </h2>
-            <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-8 text-primary-foreground/90">
-                Create your account today and start your journey to become a QBOGame champion. It&apos;s free to join!
+            <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-8 text-neutral-300">
+                Crea tu cuenta hoy y comienza tu viaje para convertirte en un campeón de QBOGame. ¡Es gratis!
             </p>
-            <Button asChild size="lg" variant="secondary" className="text-lg py-7 px-10 bg-primary hover:bg-primary/90 text-primary-foreground font-bold">
-                <Link href="/signup">Sign Up for Free</Link>
+            <Button asChild size="lg" className="text-lg py-7 px-10 bg-primary hover:bg-primary/90 text-primary-foreground font-bold shadow-[0_0_20px_hsl(var(--primary))]">
+                <Link href="/signup">Regístrate Gratis</Link>
             </Button>
             </div>
         </section>
