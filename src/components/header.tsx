@@ -36,10 +36,12 @@ export function AppHeader() {
       )}>
       <div className="container mx-auto px-4">
         <div className={cn(
-            "flex items-center justify-between transition-all duration-300 h-20",
+            "flex items-center justify-between transition-all duration-300",
+            scrolled ? "h-20" : "h-28"
           )}>
           
-          <div className={cn("flex items-center gap-2 transition-opacity duration-500", 
+          <div className={cn(
+            "flex items-center gap-2 transition-all duration-500", 
             scrolled ? "opacity-100" : "opacity-0"
           )}>
              <Link href="/" className="flex items-center gap-2">
@@ -50,7 +52,7 @@ export function AppHeader() {
             </Link>
           </div>
             
-          <div className="flex-1">
+          <div className="flex-1 flex items-center justify-center">
               <nav className={cn("hidden md:flex items-center gap-6 ml-6 transition-opacity duration-500",
                 scrolled ? "opacity-100" : "opacity-0 pointer-events-none"
               )}>
@@ -64,7 +66,7 @@ export function AppHeader() {
               </nav>
           </div>
 
-          <div className="flex-1 flex justify-end">
+          <div className="flex justify-end">
             <div className={cn("hidden md:flex items-center gap-2 transition-opacity duration-500",
                 scrolled ? "opacity-100" : "opacity-0 pointer-events-none"
               )}>
