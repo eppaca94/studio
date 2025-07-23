@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,6 +31,9 @@ export function AppHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
+  const pathname = usePathname();
+  
+  const isHomePage = pathname === '/';
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -39,12 +42,19 @@ export function AppHeader() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+        if (isHomePage) {
+            setScrolled(window.scrollY > 20);
+        }
     };
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Check scroll position on initial load
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    
+    if (isHomePage) {
+        window.addEventListener("scroll", handleScroll);
+        handleScroll(); // Check scroll position on initial load
+        return () => window.removeEventListener("scroll", handleScroll);
+    } else {
+        setScrolled(true);
+    }
+  }, [isHomePage]);
 
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -103,7 +113,7 @@ export function AppHeader() {
           )}>
              <Link href="/" className="flex items-center gap-2">
               <Gamepad2 className="text-primary w-12 h-12" />
-              <span className="font-bold font-headline text-primary text-4xl">
+              <span className="font-bold font-headline text-primary text-5xl">
                 QBOGame
               </span>
             </Link>
@@ -117,7 +127,7 @@ export function AppHeader() {
           >
             <Link href="/" className="flex items-center gap-2">
               <Gamepad2 className="text-primary w-12 h-12" />
-              <span className="font-bold font-headline text-primary text-4xl">
+              <span className="font-bold font-headline text-primary text-5xl">
                 QBOGame
               </span>
             </Link>

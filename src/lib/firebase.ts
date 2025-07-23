@@ -10,7 +10,6 @@ const firebaseConfig = {
   "storageBucket": "qbogame-sm2gr.firebasestorage.app",
   "apiKey": "AIzaSyAnZ-hao8ENU3NiirzPtlxFH3RjYz69z2c",
   "authDomain": "qbogame-sm2gr.firebaseapp.com",
-  "measurementId": "",
   "messagingSenderId": "418240252553"
 };
 
