@@ -9,9 +9,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { auth, db } from "@/lib/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { auth, db, googleProvider, facebookProvider } from "@/lib/firebase";
+import { createUserWithEmailAndPassword, signInWithPopup, User } from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { Separator } from "@/components/ui/separator";
+import { GoogleIcon } from "@/components/icons/google-icon";
+import { FacebookIcon } from "@/components/icons/facebook-icon";
 
 export default function SignupPage() {
     const { toast } = useToast();
@@ -20,6 +23,14 @@ export default function SignupPage() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    
+    const handleSuccessfulSignup = () => {
+        toast({
+            title: "Account Created!",
+            description: "You can now log in.",
+        });
+        router.push('/login');
+    }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -39,17 +50,12 @@ export default function SignupPage() {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Create a document for the new user in Firestore
         await setDoc(doc(db, "users", user.uid), {
             email: user.email,
             coins: 0,
         });
 
-        toast({
-            title: "Account Created!",
-            description: "You can now log in with your new credentials.",
-        });
-        router.push('/login');
+        handleSuccessfulSignup();
       } catch (err: any) {
         setError(err.message);
         toast({
@@ -59,6 +65,34 @@ export default function SignupPage() {
         });
       }
     }
+
+    const handleSocialSignup = async (provider: typeof googleProvider | typeof facebookProvider) => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            
+            const userDocRef = doc(db, "users", user.uid);
+            const userDoc = await getDoc(userDocRef);
+
+            if (!userDoc.exists()) {
+                await setDoc(userDocRef, {
+                    email: user.email,
+                    coins: 0,
+                    name: user.displayName,
+                    photoURL: user.photoURL,
+                });
+            }
+            
+            handleSuccessfulSignup();
+        } catch (err: any) {
+            setError(err.message);
+            toast({
+                title: "Signup Failed",
+                description: err.message,
+                variant: "destructive",
+            });
+        }
+    };
 
   return (
     <div className="flex items-center justify-center min-h-screen pt-28 px-4">
@@ -83,7 +117,22 @@ export default function SignupPage() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
-            <Button className="w-full bg-accent hover:bg-accent/90" type="submit">Create Account</Button>
+            <Button className="w-full" type="submit">Create Account</Button>
+            
+            <div className="relative w-full">
+                <Separator className="w-full" />
+                <span className="absolute left-1/2 -translate-x-1/2 -top-3 bg-card px-2 text-xs text-muted-foreground">OR</span>
+            </div>
+
+            <div className="w-full grid grid-cols-2 gap-4">
+                <Button variant="outline" onClick={() => handleSocialSignup(googleProvider)}>
+                    <GoogleIcon className="mr-2 h-5 w-5" /> Google
+                </Button>
+                <Button variant="outline" onClick={() => handleSocialSignup(facebookProvider)}>
+                    <FacebookIcon className="mr-2 h-5 w-5" /> Facebook
+                </Button>
+            </div>
+
             <p className="text-sm text-center text-muted-foreground">
               Already have an account?{" "}
               <Button variant="link" asChild className="p-0">

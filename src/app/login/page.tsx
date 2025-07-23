@@ -9,8 +9,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { auth } from "@/lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, googleProvider, facebookProvider } from "@/lib/firebase";
+import { signInWithEmailAndPassword, signInWithPopup, User } from "firebase/auth";
+import { Separator } from "@/components/ui/separator";
+import { GoogleIcon } from "@/components/icons/google-icon";
+import { FacebookIcon } from "@/components/icons/facebook-icon";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+
 
 export default function LoginPage() {
   const { toast } = useToast();
@@ -19,17 +25,21 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const handleSuccessfulLogin = (user: User) => {
+    toast({
+        title: "Login Successful",
+        description: "Welcome back!",
+    });
+    router.push('/');
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError('');
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      toast({
-          title: "Login Successful",
-          description: "Welcome back!",
-      });
-      router.push('/');
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      handleSuccessfulLogin(userCredential.user);
     } catch (err: any) {
       setError(err.message);
       toast({
@@ -39,6 +49,35 @@ export default function LoginPage() {
       });
     }
   }
+
+  const handleSocialLogin = async (provider: typeof googleProvider | typeof facebookProvider) => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Check if user exists in Firestore, if not create a new document
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (!userDoc.exists()) {
+          await setDoc(userDocRef, {
+              email: user.email,
+              coins: 0,
+              name: user.displayName,
+              photoURL: user.photoURL,
+          });
+      }
+      
+      handleSuccessfulLogin(user);
+    } catch (err: any) {
+      setError(err.message);
+      toast({
+        title: "Login Failed",
+        description: err.message,
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen pt-28 px-4">
@@ -60,6 +99,21 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
             <Button className="w-full" type="submit">Login</Button>
+            
+            <div className="relative w-full">
+                <Separator className="w-full" />
+                <span className="absolute left-1/2 -translate-x-1/2 -top-3 bg-card px-2 text-xs text-muted-foreground">OR</span>
+            </div>
+
+            <div className="w-full grid grid-cols-2 gap-4">
+                <Button variant="outline" onClick={() => handleSocialLogin(googleProvider)}>
+                    <GoogleIcon className="mr-2 h-5 w-5" /> Google
+                </Button>
+                <Button variant="outline" onClick={() => handleSocialLogin(facebookProvider)}>
+                    <FacebookIcon className="mr-2 h-5 w-5" /> Facebook
+                </Button>
+            </div>
+
             <p className="text-sm text-center text-muted-foreground">
               Don&apos;t have an account?{" "}
               <Button variant="link" asChild className="p-0">
