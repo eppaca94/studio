@@ -55,7 +55,6 @@ export default function LoginPage() {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      // Check if user exists in Firestore, if not create a new document
       const userDocRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userDocRef);
 
@@ -80,7 +79,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen pt-28 px-4">
+    <div className="flex items-center justify-center min-h-screen pt-28 px-4 bg-background">
       <Card className="w-full max-w-md shadow-2xl">
         <form onSubmit={handleSubmit}>
           <CardHeader className="text-center">
@@ -106,10 +105,10 @@ export default function LoginPage() {
             </div>
 
             <div className="w-full grid grid-cols-2 gap-4">
-                <Button variant="outline" onClick={() => handleSocialLogin(googleProvider)}>
+                <Button variant="outline" type="button" onClick={() => handleSocialLogin(googleProvider)}>
                     <GoogleIcon className="mr-2 h-5 w-5" /> Google
                 </Button>
-                <Button variant="outline" onClick={() => handleSocialLogin(facebookProvider)}>
+                <Button variant="outline" type="button" onClick={() => handleSocialLogin(facebookProvider)}>
                     <FacebookIcon className="mr-2 h-5 w-5" /> Facebook
                 </Button>
             </div>
