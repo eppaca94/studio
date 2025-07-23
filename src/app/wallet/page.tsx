@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, updateDoc, increment } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 
 import { Button } from "@/components/ui/button";
@@ -33,25 +33,59 @@ export default function WalletPage() {
                 if (doc.exists()) {
                     setBalance(doc.data().coins);
                 } else {
-                    // This case might happen if the doc creation is delayed
                     setBalance(0);
                 }
             });
 
-            // Cleanup subscription on unmount
             return () => unsubscribe();
         }
     }, [user]);
 
 
-    const handleDeposit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleDeposit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const amount = (event.currentTarget.elements.namedItem('amount') as HTMLInputElement).value;
-        toast({
-            title: "Deposit Successful",
-            description: `You've added ${amount} Qbocoins to your wallet.`,
-        });
-        event.currentTarget.reset();
+        if (!user) {
+            toast({
+                title: "Error",
+                description: "You must be logged in to deposit coins.",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        const amountInput = event.currentTarget.elements.namedItem('amount') as HTMLInputElement;
+        const amount = parseInt(amountInput.value, 10);
+
+        if (isNaN(amount) || amount <= 0) {
+            toast({
+                title: "Invalid Amount",
+                description: "Please enter a valid positive number.",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        const userDocRef = doc(db, "users", user.uid);
+
+        try {
+            // In a real app, you would process payment here before updating the balance.
+            await updateDoc(userDocRef, {
+                coins: increment(amount)
+            });
+
+            toast({
+                title: "Deposit Successful",
+                description: `You've added ${amount.toLocaleString()} Qbocoins to your wallet.`,
+            });
+            event.currentTarget.reset();
+        } catch (error) {
+            console.error("Error depositing coins: ", error);
+            toast({
+                title: "Deposit Failed",
+                description: "Something went wrong. Please try again.",
+                variant: "destructive",
+            });
+        }
     }
 
   return (
@@ -77,7 +111,7 @@ export default function WalletPage() {
                         <Label htmlFor="amount" className="sr-only">Amount</Label>
                         <div className="relative">
                             <QbocoinIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                            <Input id="amount" name="amount" type="number" placeholder="Enter amount to deposit" className="pl-10" required />
+                            <Input id="amount" name="amount" type="number" placeholder="Enter amount to deposit" className="pl-10" required min="1" />
                         </div>
                     </CardContent>
                     <CardFooter>
