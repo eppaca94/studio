@@ -111,11 +111,11 @@ export function AppHeader() {
             )}>
                 <Gamepad2 className={cn(
                     "transition-all duration-500",
-                    isHomePage && !scrolled ? "h-10 w-10 text-primary" : "h-8 w-8 text-primary"
+                    isHomePage && !scrolled ? "h-9 w-9 text-primary" : "h-7 w-7 text-primary"
                 )} />
                 <span className={cn(
                     "font-bold font-headline text-primary transition-all duration-500",
-                    isHomePage && !scrolled ? "text-4xl" : "text-3xl"
+                    isHomePage && !scrolled ? "text-3xl" : "text-2xl"
                 )}>
                 QBOGame
                 </span>
