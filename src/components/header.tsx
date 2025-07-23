@@ -45,8 +45,8 @@ export function AppHeader() {
             scrolled ? "opacity-100" : "opacity-0"
           )}>
              <Link href="/" className="flex items-center gap-2">
-              <Gamepad2 className="text-primary w-8 h-8" />
-              <span className="font-bold font-headline text-primary text-2xl">
+              <Gamepad2 className="text-primary w-10 h-10" />
+              <span className="font-bold font-headline text-primary text-3xl">
                 QBOGame
               </span>
             </Link>
@@ -59,8 +59,8 @@ export function AppHeader() {
             )}
           >
             <Link href="/" className="flex items-center gap-2">
-              <Gamepad2 className="text-primary w-8 h-8" />
-              <span className="font-bold font-headline text-primary text-2xl">
+              <Gamepad2 className="text-primary w-10 h-10" />
+              <span className="font-bold font-headline text-primary text-3xl">
                 QBOGame
               </span>
             </Link>
